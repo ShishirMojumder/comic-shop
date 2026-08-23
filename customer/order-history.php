@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include __DIR__ . "/../config/db.php";
 
 $user_id = 1;
@@ -62,6 +62,8 @@ $items_sql = "SELECT
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link" href="../index.php">Home</a>
                     <a class="nav-link" href="../products.php">Products</a>
+                    <a class="nav-link" href="../events.php">Events</a>
+                    <a class="nav-link" href="../cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
                     <a class="nav-link active" href="order-history.php">My Orders</a>
                     <a class="nav-link" href="../admin/dashboard.php">Admin</a>
                 </div>
@@ -80,6 +82,13 @@ $items_sql = "SELECT
 
         <section class="section-space">
             <div class="content-width">
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                <?php endif; ?>
+
                 <a class="back-link" href="../index.php">&larr; Back to Home</a>
 
                 <?php if (mysqli_num_rows($orders_result) === 0): ?>

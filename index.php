@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,8 +23,9 @@
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link active" href="index.php">Home</a>
                     <a class="nav-link" href="products.php">Products</a>
+                    <a class="nav-link" href="events.php">Events</a>
+                    <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
                     <a class="nav-link" href="customer/order-history.php">Orders</a>
-                    <a class="nav-link" href="product.php?id=1#reviews">Reviews</a>
                     <a class="nav-link" href="admin/dashboard.php">Admin</a>
                 </div>
             </div>

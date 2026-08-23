@@ -1,20 +1,51 @@
 <?php
-
+session_start();
 include "config/db.php";
 
-$sql = "SELECT
-            p.product_id,
-            p.name,
-            p.price,
-            p.stock,
-            prs.average_rating,
-            COALESCE(prs.total_reviews, 0) AS total_reviews
-        FROM Products p
-        LEFT JOIN product_rating_summary prs
-            ON p.product_id = prs.product_id
-        ORDER BY p.product_id";
+$category_filter = filter_input(INPUT_GET, 'category', FILTER_VALIDATE_INT);
 
-$result = mysqli_query($conn, $sql);
+// Fetch categories for the filter UI
+$cat_sql = "SELECT category_id, name FROM Categories ORDER BY name";
+$cat_result = mysqli_query($conn, $cat_sql);
+$categories = [];
+if ($cat_result) {
+    while ($row = mysqli_fetch_assoc($cat_result)) {
+        $categories[] = $row;
+    }
+}
+
+// Fetch products (filtered if category is chosen)
+if ($category_filter) {
+    $sql = "SELECT
+                p.product_id,
+                p.name,
+                p.price,
+                p.stock,
+                prs.average_rating,
+                COALESCE(prs.total_reviews, 0) AS total_reviews
+            FROM Products p
+            LEFT JOIN product_rating_summary prs
+                ON p.product_id = prs.product_id
+            WHERE p.category_id = ?
+            ORDER BY p.product_id";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $category_filter);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+} else {
+    $sql = "SELECT
+                p.product_id,
+                p.name,
+                p.price,
+                p.stock,
+                prs.average_rating,
+                COALESCE(prs.total_reviews, 0) AS total_reviews
+            FROM Products p
+            LEFT JOIN product_rating_summary prs
+                ON p.product_id = prs.product_id
+            ORDER BY p.product_id";
+    $result = mysqli_query($conn, $sql);
+}
 
 if (!$result) {
     die("Could not load products: " . mysqli_error($conn));
@@ -44,6 +75,8 @@ if (!$result) {
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link" href="index.php">Home</a>
                     <a class="nav-link active" href="products.php">Products</a>
+                    <a class="nav-link" href="events.php">Events</a>
+                    <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
                     <a class="nav-link" href="customer/order-history.php">My Orders</a>
                     <a class="nav-link" href="admin/dashboard.php">Admin</a>
                 </div>
@@ -62,6 +95,14 @@ if (!$result) {
 
         <section class="section-space">
             <div class="content-width">
+                <div class="category-filters text-center mb-5">
+                    <a href="products.php" class="btn btn-sm <?php echo !$category_filter ? 'btn-premium' : 'btn-outline-premium'; ?> me-2 mb-2">All Products</a>
+                    <?php foreach ($categories as $cat): ?>
+                        <a href="products.php?category=<?php echo $cat['category_id']; ?>" class="btn btn-sm <?php echo $category_filter === (int)$cat['category_id'] ? 'btn-premium' : 'btn-outline-premium'; ?> me-2 mb-2">
+                            <?php echo htmlspecialchars($cat['name']); ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
                 <?php if (mysqli_num_rows($result) === 0): ?>
                     <div class="empty-state text-center">
                         <h2 class="h4">The collection is currently empty.</h2>

@@ -35,11 +35,20 @@ CREATE TABLE Customer_Address (
         ON DELETE CASCADE
 );
 
+CREATE TABLE Categories (
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
 CREATE TABLE Products (
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(150) NOT NULL,
     price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
-    stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0)
+    stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0),
+    category_id INT NULL,
+    CONSTRAINT fk_products_category
+        FOREIGN KEY (category_id) REFERENCES Categories(category_id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE Comics (
@@ -90,7 +99,8 @@ CREATE TABLE Events (
     event_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(150) NOT NULL,
     date DATE NOT NULL,
-    location VARCHAR(255) NOT NULL
+    location VARCHAR(255) NOT NULL,
+    max_seats INT NOT NULL DEFAULT 50
 );
 
 CREATE TABLE Tickets (
@@ -119,3 +129,26 @@ CREATE TABLE Reviews (
         FOREIGN KEY (product_id) REFERENCES Products(product_id)
         ON DELETE CASCADE
 );
+
+DELIMITER //
+CREATE TRIGGER add_loyalty_points
+AFTER INSERT ON Order_Items
+FOR EACH ROW
+BEGIN
+    DECLARE is_comic INT DEFAULT 0;
+    DECLARE customer_id INT;
+    
+    -- Check if the product is a Comic
+    SELECT COUNT(*) INTO is_comic FROM Comics WHERE product_id = NEW.product_id;
+    
+    IF is_comic > 0 THEN
+        -- Get the user_id (customer_id) of the order
+        SELECT user_id INTO customer_id FROM Orders WHERE Order_id = NEW.Order_id;
+        
+        -- Add 10 loyalty points per comic book purchased
+        UPDATE Customer 
+        SET loyalty_pts = loyalty_pts + (10 * NEW.quantity)
+        WHERE user_id = customer_id;
+    END IF;
+END //
+DELIMITER ;

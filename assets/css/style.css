@@ -1,14 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
 :root {
-    --ink: #111111;
-    --ink-soft: #1a1a1a;
-    --paper: #f5f1e8;
-    --gold: #c6a15b;
-    --burgundy: #6f1d2c;
-    --muted: #a7a7a7;
+    --ink: #0d0c0a;
+    --ink-soft: #171512;
+    --paper: #f5eedf;
+    --gold: #d4af37;
+    --burgundy: #800020;
+    --muted: #8e8a82;
     --white: #ffffff;
-    --success: #496b53;
-    --border-dark: rgba(198, 161, 91, 0.25);
-    --border-light: rgba(17, 17, 17, 0.12);
+    --success: #2e7d32;
+    --border-dark: rgba(212, 175, 55, 0.22);
+    --border-light: rgba(13, 12, 10, 0.1);
+    
+    --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
 }
 
 html {
@@ -18,7 +23,7 @@ html {
 body {
     background: var(--ink);
     color: var(--paper);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-family: var(--font-sans);
     line-height: 1.65;
 }
 
@@ -26,8 +31,9 @@ h1,
 h2,
 h3,
 h4,
-.brand-main {
-    font-family: Georgia, "Times New Roman", serif;
+.brand-main,
+.page-title {
+    font-family: var(--font-serif);
 }
 
 a {
@@ -132,31 +138,39 @@ a {
 
 .btn-premium,
 .btn-outline-premium {
-    border-radius: 0.25rem;
+    border-radius: 0.35rem;
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     min-height: 46px;
     padding: 0.72rem 1.35rem;
     text-transform: uppercase;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .btn-premium {
     background: var(--gold);
     border: 1px solid var(--gold);
     color: var(--ink);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
 }
 
 .btn-premium:hover,
 .btn-premium:focus {
-    background: #d2b16f;
-    border-color: #d2b16f;
+    background: #e5be49;
+    border-color: #e5be49;
     color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-premium:active {
+    transform: translateY(0);
 }
 
 .btn-outline-premium {
     background: transparent;
-    border: 1px solid rgba(245, 241, 232, 0.55);
+    border: 1px solid rgba(245, 241, 232, 0.4);
     color: var(--paper);
 }
 
@@ -165,6 +179,12 @@ a {
     background: var(--paper);
     border-color: var(--paper);
     color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 241, 232, 0.15);
+}
+
+.btn-outline-premium:active {
+    transform: translateY(0);
 }
 
 .section-space {
@@ -223,9 +243,9 @@ a {
 }
 
 .page-header {
-    background: var(--ink-soft);
+    background: linear-gradient(180deg, var(--ink-soft), var(--ink));
     border-bottom: 1px solid var(--border-dark);
-    padding: 4rem 0 3rem;
+    padding: 4rem 0 3.5rem;
 }
 
 .page-title {
@@ -237,12 +257,12 @@ a {
 
 .product-card {
     background: var(--paper);
-    border: 1px solid rgba(198, 161, 91, 0.35);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 0.6rem;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
     color: var(--ink);
     height: 100%;
-    transition: transform 180ms ease, box-shadow 180ms ease;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
 }
 
 .product-card .card-body {
@@ -314,9 +334,10 @@ a {
 .order-card,
 .empty-state {
     background: var(--paper);
-    border: 1px solid var(--border-light);
-    border-radius: 0.6rem;
+    border: 1px solid #e5dccb;
+    border-radius: 0.75rem;
     color: var(--ink);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 12px 35px rgba(0, 0, 0, 0.18);
 }
 
 .detail-panel,
@@ -559,7 +580,7 @@ a {
     color: var(--ink);
     height: 100%;
     overflow: hidden;
-    transition: transform 180ms ease;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
 }
 
 .comic-cover {
@@ -710,6 +731,7 @@ a {
     overflow: hidden;
     padding: clamp(1.5rem, 4vw, 3rem);
     position: relative;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
 }
 
 .shop-type-card::before {
@@ -778,12 +800,21 @@ a {
 
 @media (hover: hover) and (pointer: fine) {
     .product-card:hover {
-        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
-        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        transform: translateY(-5px);
+        border-color: var(--gold);
     }
 
     .home-product-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        border-color: var(--gold);
+    }
+
+    .shop-type-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        border-color: var(--gold);
     }
 }
 
@@ -869,4 +900,48 @@ a {
     .shop-type-number {
         font-size: 4rem;
     }
+}
+
+.status-badge {
+    border-radius: 20px;
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.75rem;
+    text-transform: uppercase;
+}
+
+.status-complete {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffecb5;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+.category-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.category-filters .btn {
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.55rem 1.4rem;
+    min-height: auto;
+    letter-spacing: 0.05em;
 }

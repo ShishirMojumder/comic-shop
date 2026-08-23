@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include "config/db.php";
 
 $user_id = 1; // TEMPORARY DEMO USER FOR CSE370 PRESENTATION
@@ -95,6 +95,8 @@ $has_purchased = (bool) $eligibility["has_purchased"];
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link" href="index.php">Home</a>
                     <a class="nav-link active" href="products.php">Products</a>
+                    <a class="nav-link" href="events.php">Events</a>
+                    <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
                     <a class="nav-link" href="customer/order-history.php">My Orders</a>
                     <a class="nav-link" href="admin/dashboard.php">Admin</a>
                 </div>
@@ -138,6 +140,22 @@ $has_purchased = (bool) $eligibility["has_purchased"];
                 </div>
 
                 <div class="col-lg-5">
+                    <aside class="interaction-card mb-4">
+                        <h2 class="h4 mb-3 text-light">Purchase</h2>
+                        <?php if ((int)$product["stock"] > 0): ?>
+                            <form action="cart-action.php" method="post">
+                                <input type="hidden" name="action" value="add">
+                                <input type="hidden" name="product_id" value="<?php echo (int)$product_id; ?>">
+                                <div class="mb-3">
+                                    <label for="quantity" class="form-label fw-semibold text-light">Quantity</label>
+                                    <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="<?php echo (int)$product['stock']; ?>" style="background-color: #2b1111; color: #fff; border: 1px solid #732222;" required>
+                                </div>
+                                <button type="submit" class="btn btn-premium w-100">Add to Cart</button>
+                            </form>
+                        <?php else: ?>
+                            <div class="alert alert-danger mb-0">This product is currently out of stock.</div>
+                        <?php endif; ?>
+                    </aside>
                     <aside class="interaction-card">
                         <?php if ($has_purchased): ?>
                             <p class="eyebrow">Verified Buyer</p>
