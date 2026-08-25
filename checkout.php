@@ -109,11 +109,11 @@ $loyalty_discount = $max_points_usable * $loyalty_discount_value;
                 <div class="row g-4 mt-2">
                     <div class="col-lg-7">
                         <section class="detail-panel">
-                            <h2 class="h3 mb-4 text-light">Shipping Details</h2>
+                            <h2 class="h3 mb-4">Shipping Details</h2>
                             <form action="place-order.php" method="post">
                                 <div class="mb-3">
-                                    <label for="shipping_address" class="form-label fw-semibold text-light">Shipping Address</label>
-                                    <textarea id="shipping_address" name="shipping_address" class="form-control" rows="3" placeholder="Enter your full street address, city, and zip code" style="background-color: #2b1111; color: #fff; border: 1px solid #732222;" required></textarea>
+                                    <label for="shipping_address" class="form-label fw-semibold">Shipping Address</label>
+                                    <textarea id="shipping_address" name="shipping_address" class="form-control" rows="3" placeholder="Enter your full street address, city, and zip code" style="background-color: #fff; color: #0d0c0a; border: 1px solid #c9c2b4;" required></textarea>
                                 </div>
 
                                 <?php if ($loyalty_pts > 0): ?>
@@ -136,7 +136,7 @@ $loyalty_discount = $max_points_usable * $loyalty_discount_value;
 
                     <div class="col-lg-5">
                         <aside class="interaction-card">
-                            <h2 class="h4 mb-4 text-light">Order Summary</h2>
+                            <h2 class="h4 mb-4">Order Summary</h2>
                             <div class="table-responsive mb-4">
                                 <table class="table premium-table align-middle">
                                     <thead>
@@ -148,16 +148,16 @@ $loyalty_discount = $max_points_usable * $loyalty_discount_value;
                                     <tbody>
                                         <?php foreach ($cart_items as $item): ?>
                                             <tr>
-                                                <td class="small text-light">
+                                                <td class="small">
                                                     <?php echo htmlspecialchars($item['name']); ?> <span class="text-muted">x<?php echo $item['quantity']; ?></span>
                                                 </td>
-                                                <td class="text-end text-light small">$<?php echo number_format($item['line_total'], 2); ?></td>
+                                                <td class="text-end small">$<?php echo number_format($item['line_total'], 2); ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-between mb-2 text-light small">
+                            <div class="d-flex justify-content-between mb-2 small">
                                 <span>Subtotal</span>
                                 <span>$<?php echo number_format($grand_total, 2); ?></span>
                             </div>
@@ -166,7 +166,7 @@ $loyalty_discount = $max_points_usable * $loyalty_discount_value;
                                 <span>-$<?php echo number_format($loyalty_discount, 2); ?></span>
                             </div>
                             <hr style="border-color: #732222;">
-                            <div class="d-flex justify-content-between text-light fs-5">
+                            <div class="d-flex justify-content-between fs-5">
                                 <strong>Total</strong>
                                 <strong id="order_total" class="text-premium">$<?php echo number_format($grand_total, 2); ?></strong>
                             </div>

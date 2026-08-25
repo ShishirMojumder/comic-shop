@@ -113,18 +113,18 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                                     <tbody>
                                         <?php foreach ($cart_items as $item): ?>
                                             <tr>
-                                                <td>
-                                                    <span class="fw-semibold text-light"><?php echo htmlspecialchars($item['name']); ?></span>
-                                                </td>
+                                                 <td>
+                                                     <span class="fw-semibold"><?php echo htmlspecialchars($item['name']); ?></span>
+                                                 </td>
                                                 <td>$<?php echo number_format($item['price'], 2); ?></td>
                                                 <td>
                                                     <form action="cart-action.php" method="post" class="d-flex align-items-center gap-2">
                                                         <input type="hidden" name="action" value="update">
                                                         <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
-                                                        <input type="number" name="quantity" class="form-control" value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $item['stock']; ?>" style="width: 70px; background-color: #2b1111; color: #fff; border: 1px solid #732222;" onchange="this.form.submit()">
+                                                         <input type="number" name="quantity" class="form-control" value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $item['stock']; ?>" style="width: 70px; background-color: #fff; color: #0d0c0a; border: 1px solid #c9c2b4;" onchange="this.form.submit()">
                                                     </form>
                                                 </td>
-                                                <td class="fw-semibold text-light">$<?php echo number_format($item['line_total'], 2); ?></td>
+                                                 <td class="fw-semibold">$<?php echo number_format($item['line_total'], 2); ?></td>
                                                 <td>
                                                     <form action="cart-action.php" method="post">
                                                         <input type="hidden" name="action" value="remove">
