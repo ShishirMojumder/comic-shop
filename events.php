@@ -129,7 +129,7 @@ if (!$result) {
         <div class="content-width text-center">
             <p class="footer-brand">Stuart's Comic Shop</p>
             <p class="small mb-1">CSE370 Database Systems Project · 2026</p>
-            <p class="small mb-0">Built with PHP &amp; Raw SQL</p>
+            <p class="small mb-0">Built with PHP &amp; SQL</p>
         </div>
     </footer>
 </div>
