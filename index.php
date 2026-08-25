@@ -177,6 +177,21 @@
             </div>
         </section>
 
+        <section class="section-space" style="background: var(--ink-soft); border-top: 1px solid var(--border-dark); border-bottom: 1px solid var(--border-dark);">
+            <div class="content-width">
+                <div class="text-center mb-5">
+                    <p class="eyebrow">Community &amp; Events</p>
+                    <h2 class="section-heading mb-0">Comic-Con Events &amp; Ticketing</h2>
+                </div>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <p class="mb-4 text-muted" style="font-size: 1.1rem;">Secure your seats for local Comic-Cons, expo seminars, trivia nights, and cosplay championships! Our database-driven ticketing system tracks seat occupancy in real-time.</p>
+                        <a class="btn btn-premium btn-lg" href="events.php">Explore &amp; Book Tickets Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="database-strip section-space">
             <div class="content-width">
                 <div class="text-center mb-5">
