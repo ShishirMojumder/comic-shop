@@ -73,6 +73,8 @@ $items_sql = "SELECT
                         <?php else: ?>
                             <a class="nav-link" href="../cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
                             <a class="nav-link active" href="order-history.php">My Orders</a>
+                            <a class="nav-link" href="quiz.php">Loyalty Quiz</a>
+                            <a class="nav-link" href="account.php">My Account</a>
                         <?php endif; ?>
                         <a class="nav-link" href="../logout.php">Logout (<?php echo htmlspecialchars(explode('@', $_SESSION['email'])[0]); ?>)</a>
                     <?php else: ?>

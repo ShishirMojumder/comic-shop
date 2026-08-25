@@ -30,6 +30,8 @@
                         <?php else: ?>
                             <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
                             <a class="nav-link" href="customer/order-history.php">My Orders</a>
+                            <a class="nav-link" href="customer/quiz.php">Loyalty Quiz</a>
+                            <a class="nav-link" href="customer/account.php">My Account</a>
                         <?php endif; ?>
                         <a class="nav-link" href="logout.php">Logout (<?php echo htmlspecialchars(explode('@', $_SESSION['email'])[0]); ?>)</a>
                     <?php else: ?>
@@ -187,35 +189,6 @@
                     <div class="col-md-8 text-center">
                         <p class="mb-4 text-muted" style="font-size: 1.1rem;">Secure your seats for local Comic-Cons, expo seminars, trivia nights, and cosplay championships! Our database-driven ticketing system tracks seat occupancy in real-time.</p>
                         <a class="btn btn-premium btn-lg" href="events.php">Explore &amp; Book Tickets Now</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="database-strip section-space">
-            <div class="content-width">
-                <div class="text-center mb-5">
-                    <p class="eyebrow">CSE370 Project</p>
-                    <h2 class="section-heading mb-0">Database Features</h2>
-                </div>
-                <div class="row g-4 justify-content-center">
-                    <div class="col-md-5">
-                        <article class="database-feature-card">
-                            <span>01</span>
-                            <div>
-                                <h3>Product Reviews</h3>
-                                <p>SQL View · AVG · COUNT · GROUP BY</p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-5">
-                        <article class="database-feature-card">
-                            <span>02</span>
-                            <div>
-                                <h3>Order History</h3>
-                                <p>SQL SUM · JOIN · Prepared Statements</p>
-                            </div>
-                        </article>
                     </div>
                 </div>
             </div>

@@ -13,8 +13,14 @@ $event_id = filter_input(INPUT_POST, 'event_id', FILTER_VALIDATE_INT);
 $seat_no = filter_input(INPUT_POST, 'seat_no', FILTER_DEFAULT);
 $seat_no = $seat_no !== null ? trim($seat_no) : '';
 
-if (!$event_id || $seat_no === '') {
-    $_SESSION['error'] = "Invalid ticket booking request. Seat number cannot be empty.";
+if (!$event_id) {
+    $_SESSION['error'] = "Invalid ticket booking request.";
+    header("Location: events.php");
+    exit();
+}
+
+if (strlen($seat_no) > 10) {
+    $_SESSION['error'] = "Preferred seat number must be 10 characters or fewer.";
     header("Location: events.php");
     exit();
 }
@@ -48,7 +54,32 @@ try {
         throw new Exception("Event '" . $event['name'] . "' is fully booked.");
     }
 
-    // check if seat is already taken
+    // Assign the first available general-admission seat when no preference is given.
+    if ($seat_no === '') {
+        $stmt = mysqli_prepare($conn, "SELECT seat_no FROM Tickets WHERE event_id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $event_id);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        $taken_seats = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $taken_seats[$row['seat_no']] = true;
+        }
+        mysqli_stmt_close($stmt);
+
+        for ($seat_number = 1; $seat_number <= (int) $event['max_seats']; $seat_number++) {
+            $candidate = 'GA-' . $seat_number;
+            if (!isset($taken_seats[$candidate])) {
+                $seat_no = $candidate;
+                break;
+            }
+        }
+    }
+
+    if ($seat_no === '') {
+        throw new Exception("No seat could be assigned.");
+    }
+
+    // check if the preferred or automatically assigned seat is already taken
     $stmt = mysqli_prepare($conn, "SELECT COUNT(*) AS seat_taken FROM Tickets WHERE event_id = ? AND seat_no = ?");
     mysqli_stmt_bind_param($stmt, "is", $event_id, $seat_no);
     mysqli_stmt_execute($stmt);

@@ -17,7 +17,10 @@ INSERT INTO Categories (category_id, name) VALUES
     (2, 'Marvel Comics'),
     (3, 'Independent Comics'),
     (4, 'Apparel'),
-    (5, 'Figures');
+    (5, 'Figures'),
+    (6, 'Manga'),
+    (7, 'Graphic Novels'),
+    (8, 'Collectibles');
 
 INSERT INTO Products (product_id, name, price, stock, category_id) VALUES
     (1, 'Batman: Year One', 15.99, 8, 1),
@@ -31,7 +34,13 @@ INSERT INTO Products (product_id, name, price, stock, category_id) VALUES
     (9, 'Sandman: Overture', 19.99, 7, 1),
     (10, 'X-Men Classic Cap', 22.00, 15, 4),
     (11, 'Joker Art Figure', 40.00, 2, 5),
-    (12, 'Batman: Dark Knight Returns', 16.99, 9, 1);
+    (12, 'Batman: Dark Knight Returns', 16.99, 9, 1),
+    (13, 'Demon Slayer: Volume 1', 12.99, 14, 6),
+    (14, 'One Piece: East Blue', 13.50, 11, 6),
+    (15, 'Maus', 21.99, 8, 7),
+    (16, 'The Walking Dead: Compendium One', 39.99, 5, 7),
+    (17, 'Wonder Woman Collectible Mug', 14.99, 18, 8),
+    (18, 'Spider-Man Enamel Pin', 8.99, 25, 8);
 
 INSERT INTO Comics (product_id, issue_no, author) VALUES
     (1, '1', 'Frank Miller'),
@@ -39,7 +48,11 @@ INSERT INTO Comics (product_id, issue_no, author) VALUES
     (3, '1', 'Alan Moore'),
     (7, '1', 'Brian K. Vaughan'),
     (9, '1', 'Neil Gaiman'),
-    (12, '1', 'Frank Miller');
+    (12, '1', 'Frank Miller'),
+    (13, '1', 'Koyoharu Gotouge'),
+    (14, 'East Blue', 'Eiichiro Oda'),
+    (15, 'Complete Edition', 'Art Spiegelman'),
+    (16, 'Compendium 1', 'Robert Kirkman');
 
 INSERT INTO Merchandise (product_id, size, material) VALUES
     (4, 'L', 'Cotton'),
@@ -47,7 +60,9 @@ INSERT INTO Merchandise (product_id, size, material) VALUES
     (6, '1:1 Scale', 'Metal/ABS'),
     (8, 'M', 'Polyester Blend'),
     (10, 'Adjustable', 'Polyester'),
-    (11, '7-inch', 'Vinyl');
+    (11, '7-inch', 'Vinyl'),
+    (17, 'Standard', 'Ceramic'),
+    (18, '1.25-inch', 'Enamel');
 
 INSERT INTO Orders (Order_id, user_id, Date, Status, Shipping_address) VALUES
     (1, 1, '2026-08-10', 'COMPLETED', '12 Comic Street'),
@@ -85,3 +100,12 @@ INSERT INTO Tickets (ticket_id, user_id, seat_no, event_id) VALUES
     (1, 1, 'S-1', 1),
     (2, 2, 'S-2', 1),
     (3, 1, 'S-1', 2);
+
+INSERT INTO Quiz_Questions
+    (quiz_id, question, option_a, option_b, option_c, option_d, correct_option, reward_points)
+VALUES
+    (1, 'What is Batman''s real name?', 'Clark Kent', 'Bruce Wayne', 'Peter Parker', 'Tony Stark', 'B', 10),
+    (2, 'Which city does Superman protect?', 'Gotham City', 'Central City', 'Metropolis', 'Wakanda', 'C', 10),
+    (3, 'Who created Spider-Man with Steve Ditko?', 'Stan Lee', 'Alan Moore', 'Frank Miller', 'Neil Gaiman', 'A', 10),
+    (4, 'Which material can weaken Superman?', 'Vibranium', 'Adamantium', 'Kryptonite', 'Uru', 'C', 10),
+    (5, 'What is Wonder Woman''s home island called?', 'Genosha', 'Themyscira', 'Asgard', 'Atlantis', 'B', 10);

@@ -2,8 +2,6 @@
 session_start();
 include "config/db.php";
 
-$user_id = 1; // TEMPORARY DEMO USER FOR CSE370 PRESENTATION
-
 $sql = "SELECT e.event_id, e.name, e.date, e.location, e.max_seats,
                (SELECT COUNT(*) FROM Tickets t WHERE t.event_id = e.event_id) AS tickets_sold
         FROM Events e
@@ -45,6 +43,8 @@ if (!$result) {
                         <?php else: ?>
                             <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
                             <a class="nav-link" href="customer/order-history.php">My Orders</a>
+                            <a class="nav-link" href="customer/quiz.php">Loyalty Quiz</a>
+                            <a class="nav-link" href="customer/account.php">My Account</a>
                         <?php endif; ?>
                         <a class="nav-link" href="logout.php">Logout (<?php echo htmlspecialchars(explode('@', $_SESSION['email'])[0]); ?>)</a>
                     <?php else: ?>
@@ -86,27 +86,27 @@ if (!$result) {
                             $available_seats = $event['max_seats'] - $event['tickets_sold'];
                         ?>
                             <div class="col-md-6 col-lg-4">
-                                <article class="card product-card">
+                                <article class="card product-card event-card">
                                     <div class="card-body d-flex flex-column" style="min-height: 320px;">
                                         <div class="mb-3">
                                             <span class="stock-badge <?php echo $available_seats > 0 ? 'stock-in' : 'stock-out'; ?>">
                                                 <?php echo $available_seats > 0 ? "$available_seats Seats Left" : "Sold Out"; ?>
                                             </span>
                                         </div>
-                                        <h2 class="product-name h4 text-light"><?php echo htmlspecialchars($event['name']); ?></h2>
-                                        <p class="text-muted small mb-2">📍 <?php echo htmlspecialchars($event['location']); ?></p>
-                                        <p class="text-premium fw-semibold mb-4">📅 <?php echo htmlspecialchars($event['date']); ?></p>
+                                        <h2 class="product-name h4"><?php echo htmlspecialchars($event['name']); ?></h2>
+                                        <p class="event-meta small mb-2">📍 <?php echo htmlspecialchars($event['location']); ?></p>
+                                        <p class="event-date fw-semibold mb-4">📅 <?php echo htmlspecialchars($event['date']); ?></p>
                                         
                                         <div class="mt-auto">
                                              <?php if ($available_seats > 0): ?>
                                                  <?php if (isset($_SESSION['user_id'])): ?>
-                                                     <form action="buy-ticket.php" method="post">
+                                                     <form action="confirm-ticket.php" method="post">
                                                          <input type="hidden" name="event_id" value="<?php echo $event['event_id']; ?>">
                                                          <div class="mb-3">
-                                                             <label for="seat_no_<?php echo $event['event_id']; ?>" class="form-label small text-light">Preferred Seat No.</label>
-                                                             <input type="text" id="seat_no_<?php echo $event['event_id']; ?>" name="seat_no" class="form-control form-control-sm" placeholder="e.g. A-12" style="background-color: #2b1111; color: #fff; border: 1px solid #732222;" required>
+                                                             <label for="seat_no_<?php echo $event['event_id']; ?>" class="form-label small">Preferred Seat No. <span>(optional)</span></label>
+                                                             <input type="text" id="seat_no_<?php echo $event['event_id']; ?>" name="seat_no" class="form-control form-control-sm event-seat-input" maxlength="10" placeholder="Leave blank for auto-assignment">
                                                          </div>
-                                                         <button type="submit" class="btn btn-premium w-100 btn-sm">Buy Ticket</button>
+                                                         <button type="submit" class="btn btn-premium w-100 btn-sm">Review Ticket</button>
                                                      </form>
                                                  <?php else: ?>
                                                      <a href="login.php" class="btn btn-outline-premium w-100 btn-sm">Login to Buy Ticket</a>

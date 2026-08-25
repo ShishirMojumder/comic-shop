@@ -81,6 +81,8 @@ $loyalty_discount = $max_points_usable * $loyalty_discount_value;
                         <?php else: ?>
                             <a class="nav-link" href="cart.php">Cart (<?php echo count($_SESSION['cart']); ?>)</a>
                             <a class="nav-link" href="customer/order-history.php">My Orders</a>
+                            <a class="nav-link" href="customer/quiz.php">Loyalty Quiz</a>
+                            <a class="nav-link" href="customer/account.php">My Account</a>
                         <?php endif; ?>
                         <a class="nav-link" href="logout.php">Logout (<?php echo htmlspecialchars(explode('@', $_SESSION['email'])[0]); ?>)</a>
                     <?php else: ?>

@@ -225,15 +225,6 @@ a {
     margin-bottom: 0;
 }
 
-.database-strip {
-    background: var(--paper);
-    color: var(--ink);
-}
-
-.database-strip .section-heading {
-    color: var(--ink);
-}
-
 .database-card {
     background: rgba(255, 255, 255, 0.5);
     border-color: var(--border-light);
@@ -269,6 +260,45 @@ a {
     display: flex;
     flex-direction: column;
     padding: 1.75rem;
+}
+
+.event-card {
+    background: #f7f0e3;
+    color: #211b16;
+}
+
+.event-card .product-name {
+    color: #211b16;
+}
+
+.event-card .event-meta {
+    color: #5f574d;
+}
+
+.event-card .event-date {
+    color: #6f1d2c;
+}
+
+.event-card .form-label {
+    color: #332a22;
+    font-weight: 700;
+}
+
+.event-card .form-label span {
+    color: #6b6258;
+    font-weight: 500;
+}
+
+.event-seat-input,
+.event-seat-input:focus {
+    background: #fffdf8;
+    border-color: #9b8260;
+    color: #211b16;
+}
+
+.event-seat-input::placeholder {
+    color: #746b61;
+    opacity: 1;
 }
 
 .product-name {
@@ -768,34 +798,6 @@ a {
     font-family: Georgia, "Times New Roman", serif;
     font-size: 7rem;
     line-height: 0.8;
-}
-
-.database-feature-card {
-    align-items: center;
-    background: rgba(255, 255, 255, 0.52);
-    border: 1px solid var(--border-light);
-    color: var(--ink);
-    display: flex;
-    gap: 1.25rem;
-    height: 100%;
-    padding: 1.7rem;
-}
-
-.database-feature-card > span {
-    color: var(--burgundy);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 2rem;
-}
-
-.database-feature-card h3 {
-    font-size: 1.35rem;
-    margin-bottom: 0.3rem;
-}
-
-.database-feature-card p {
-    color: #68635a;
-    font-size: 0.82rem;
-    margin-bottom: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {

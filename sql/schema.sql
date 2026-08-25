@@ -130,6 +130,35 @@ CREATE TABLE Reviews (
         ON DELETE CASCADE
 );
 
+CREATE TABLE Quiz_Questions (
+    quiz_id INT PRIMARY KEY AUTO_INCREMENT,
+    question VARCHAR(255) NOT NULL,
+    option_a VARCHAR(150) NOT NULL,
+    option_b VARCHAR(150) NOT NULL,
+    option_c VARCHAR(150) NOT NULL,
+    option_d VARCHAR(150) NOT NULL,
+    correct_option CHAR(1) NOT NULL CHECK (correct_option IN ('A', 'B', 'C', 'D')),
+    reward_points INT NOT NULL DEFAULT 10 CHECK (reward_points > 0),
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE Quiz_Attempts (
+    attempt_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    quiz_id INT NOT NULL,
+    selected_option CHAR(1) NOT NULL CHECK (selected_option IN ('A', 'B', 'C', 'D')),
+    is_correct BOOLEAN NOT NULL,
+    points_awarded INT NOT NULL DEFAULT 0 CHECK (points_awarded >= 0),
+    attempted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_quiz_attempt UNIQUE (user_id, quiz_id),
+    CONSTRAINT fk_quiz_attempt_customer
+        FOREIGN KEY (user_id) REFERENCES Customer(user_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_quiz_attempt_question
+        FOREIGN KEY (quiz_id) REFERENCES Quiz_Questions(quiz_id)
+        ON DELETE CASCADE
+);
+
 DELIMITER //
 CREATE TRIGGER add_loyalty_points
 AFTER INSERT ON Order_Items
