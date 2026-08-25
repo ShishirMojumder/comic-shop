@@ -1,8 +1,11 @@
 <?php
-
+session_start();
 include "config/db.php";
 
-$user_id = 1; // TEMPORARY DEMO USER FOR CSE370 PRESENTATION
+if (!isset($_SESSION['user_id'])) {
+    die("You must be logged in to submit a review.");
+}
+$user_id = $_SESSION['user_id'];
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     die("Invalid request method.");

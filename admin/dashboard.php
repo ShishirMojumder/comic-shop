@@ -2,6 +2,12 @@
 session_start();
 include "../config/db.php";
 
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    $_SESSION['error'] = "Access denied. Administrator privileges required.";
+    header("Location: ../login.php");
+    exit();
+}
+
 // Handle Order Status Updates
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $order_id = filter_input(INPUT_POST, 'order_id', FILTER_VALIDATE_INT);
@@ -77,9 +83,19 @@ $orders_res = mysqli_query($conn, $orders_sql);
                     <a class="nav-link" href="../index.php">Home</a>
                     <a class="nav-link" href="../products.php">Products</a>
                     <a class="nav-link" href="../events.php">Events</a>
-                    <a class="nav-link" href="../cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
-                    <a class="nav-link" href="../customer/order-history.php">My Orders</a>
-                    <a class="nav-link active" href="dashboard.php">Admin</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php if ($_SESSION['role'] === 'admin'): ?>
+                            <a class="nav-link active" href="dashboard.php">Admin</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="../cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+                            <a class="nav-link" href="../customer/order-history.php">My Orders</a>
+                        <?php endif; ?>
+                        <a class="nav-link" href="../logout.php">Logout (<?php echo htmlspecialchars(explode('@', $_SESSION['email'])[0]); ?>)</a>
+                    <?php else: ?>
+                        <a class="nav-link" href="../cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+                        <a class="nav-link" href="../login.php">Login</a>
+                        <a class="nav-link" href="../register.php">Register</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

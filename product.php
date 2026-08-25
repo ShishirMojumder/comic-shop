@@ -2,7 +2,7 @@
 session_start();
 include "config/db.php";
 
-$user_id = 1; // TEMPORARY DEMO USER FOR CSE370 PRESENTATION
+$user_id = $_SESSION['user_id'] ?? 0;
 $product_id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 if (!$product_id || $product_id < 1) {
@@ -96,9 +96,19 @@ $has_purchased = (bool) $eligibility["has_purchased"];
                     <a class="nav-link" href="index.php">Home</a>
                     <a class="nav-link active" href="products.php">Products</a>
                     <a class="nav-link" href="events.php">Events</a>
-                    <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
-                    <a class="nav-link" href="customer/order-history.php">My Orders</a>
-                    <a class="nav-link" href="admin/dashboard.php">Admin</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php if ($_SESSION['role'] === 'admin'): ?>
+                            <a class="nav-link" href="admin/dashboard.php">Admin</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+                            <a class="nav-link" href="customer/order-history.php">My Orders</a>
+                        <?php endif; ?>
+                        <a class="nav-link" href="logout.php">Logout (<?php echo htmlspecialchars(explode('@', $_SESSION['email'])[0]); ?>)</a>
+                    <?php else: ?>
+                        <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+                        <a class="nav-link" href="login.php">Login</a>
+                        <a class="nav-link" href="register.php">Register</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

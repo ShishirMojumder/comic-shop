@@ -2,7 +2,12 @@
 session_start();
 include "config/db.php";
 
-$user_id = 1; // TEMPORARY DEMO USER FOR CSE370 PRESENTATION
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "You must be logged in to place an order.";
+    header("Location: login.php");
+    exit();
+}
+$user_id = $_SESSION['user_id'];
 
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     header("Location: products.php");

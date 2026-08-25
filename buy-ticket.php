@@ -2,7 +2,12 @@
 session_start();
 include "config/db.php";
 
-$user_id = 1; // TEMPORARY DEMO USER FOR CSE370 PRESENTATION
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "You must be logged in to book a ticket.";
+    header("Location: login.php");
+    exit();
+}
+$user_id = $_SESSION['user_id'];
 
 $event_id = filter_input(INPUT_POST, 'event_id', FILTER_VALIDATE_INT);
 $seat_no = filter_input(INPUT_POST, 'seat_no', FILTER_DEFAULT);

@@ -39,9 +39,19 @@ if (!$result) {
                     <a class="nav-link" href="index.php">Home</a>
                     <a class="nav-link" href="products.php">Products</a>
                     <a class="nav-link active" href="events.php">Events</a>
-                    <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
-                    <a class="nav-link" href="customer/order-history.php">My Orders</a>
-                    <a class="nav-link" href="admin/dashboard.php">Admin</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php if ($_SESSION['role'] === 'admin'): ?>
+                            <a class="nav-link" href="admin/dashboard.php">Admin</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+                            <a class="nav-link" href="customer/order-history.php">My Orders</a>
+                        <?php endif; ?>
+                        <a class="nav-link" href="logout.php">Logout (<?php echo htmlspecialchars(explode('@', $_SESSION['email'])[0]); ?>)</a>
+                    <?php else: ?>
+                        <a class="nav-link" href="cart.php">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+                        <a class="nav-link" href="login.php">Login</a>
+                        <a class="nav-link" href="register.php">Register</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -88,15 +98,19 @@ if (!$result) {
                                         <p class="text-premium fw-semibold mb-4">📅 <?php echo htmlspecialchars($event['date']); ?></p>
                                         
                                         <div class="mt-auto">
-                                            <?php if ($available_seats > 0): ?>
-                                                <form action="buy-ticket.php" method="post">
-                                                    <input type="hidden" name="event_id" value="<?php echo $event['event_id']; ?>">
-                                                    <div class="mb-3">
-                                                        <label for="seat_no_<?php echo $event['event_id']; ?>" class="form-label small text-light">Preferred Seat No.</label>
-                                                        <input type="text" id="seat_no_<?php echo $event['event_id']; ?>" name="seat_no" class="form-control form-control-sm" placeholder="e.g. A-12" style="background-color: #2b1111; color: #fff; border: 1px solid #732222;" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-premium w-100 btn-sm">Buy Ticket</button>
-                                                </form>
+                                             <?php if ($available_seats > 0): ?>
+                                                 <?php if (isset($_SESSION['user_id'])): ?>
+                                                     <form action="buy-ticket.php" method="post">
+                                                         <input type="hidden" name="event_id" value="<?php echo $event['event_id']; ?>">
+                                                         <div class="mb-3">
+                                                             <label for="seat_no_<?php echo $event['event_id']; ?>" class="form-label small text-light">Preferred Seat No.</label>
+                                                             <input type="text" id="seat_no_<?php echo $event['event_id']; ?>" name="seat_no" class="form-control form-control-sm" placeholder="e.g. A-12" style="background-color: #2b1111; color: #fff; border: 1px solid #732222;" required>
+                                                         </div>
+                                                         <button type="submit" class="btn btn-premium w-100 btn-sm">Buy Ticket</button>
+                                                     </form>
+                                                 <?php else: ?>
+                                                     <a href="login.php" class="btn btn-outline-premium w-100 btn-sm">Login to Buy Ticket</a>
+                                                 <?php endif; ?>
                                             <?php else: ?>
                                                 <button class="btn btn-secondary w-100 btn-sm" disabled>Sold Out</button>
                                             <?php endif; ?>

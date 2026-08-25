@@ -2,7 +2,12 @@
 session_start();
 include "config/db.php";
 
-$user_id = 1; // TEMPORARY DEMO USER FOR CSE370 PRESENTATION
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "You must be logged in to proceed to checkout.";
+    header("Location: login.php");
+    exit();
+}
+$user_id = $_SESSION['user_id'];
 
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     header("Location: products.php");
@@ -70,9 +75,19 @@ $loyalty_discount = $max_points_usable * $loyalty_discount_value;
                     <a class="nav-link" href="index.php">Home</a>
                     <a class="nav-link" href="products.php">Products</a>
                     <a class="nav-link" href="events.php">Events</a>
-                    <a class="nav-link" href="cart.php">Cart (<?php echo count($_SESSION['cart']); ?>)</a>
-                    <a class="nav-link" href="customer/order-history.php">My Orders</a>
-                    <a class="nav-link" href="admin/dashboard.php">Admin</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php if ($_SESSION['role'] === 'admin'): ?>
+                            <a class="nav-link" href="admin/dashboard.php">Admin</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="cart.php">Cart (<?php echo count($_SESSION['cart']); ?>)</a>
+                            <a class="nav-link" href="customer/order-history.php">My Orders</a>
+                        <?php endif; ?>
+                        <a class="nav-link" href="logout.php">Logout (<?php echo htmlspecialchars(explode('@', $_SESSION['email'])[0]); ?>)</a>
+                    <?php else: ?>
+                        <a class="nav-link" href="cart.php">Cart (<?php echo count($_SESSION['cart']); ?>)</a>
+                        <a class="nav-link" href="login.php">Login</a>
+                        <a class="nav-link" href="register.php">Register</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
